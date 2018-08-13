@@ -15,6 +15,8 @@ $username = $_SESSION['username'];
 
 if ($bayar < $grandtotal) {
 	echo "<script>alert('Uang pembayaran kurang');window.location='../index.php?page=penjualan-add'</script>";
+} else if ($grandtotal == "") {
+	echo "<script>alert('Data tidak ada');window.location='../index.php?page=penjualan-add'</script>";
 } else {
 	$con->query("INSERT INTO penjualan values ('$kode_penjualan', '$today', '$total_qty', '$grandtotal', '$bayar', '$kembalian', '$username')");
 
