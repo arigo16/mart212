@@ -154,6 +154,21 @@
             });
         }
 
+        function isi_otomatis_barangretur(){
+            var kode_penjualan = $("#kode_penjualan").val();
+            var id_barang = $("#id_barang").val();
+            $.ajax({
+                url: 'controller/act-autoview-returbarang.php',
+                data:"kode_penjualan="+kode_penjualan+"&id_barang="+id_barang,
+            }).success(function (data) {
+                var json = data,
+                obj = JSON.parse(json);
+                $('#nama_barang').val(obj.nama_barang);
+                $('#harga_jual').val(obj.harga_jual);
+                $('#qty_barang').val(obj.qty_barang);
+            });
+        }
+
         // Inputan hanya angka
         function OnlyNumber(evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode
