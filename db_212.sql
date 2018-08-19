@@ -2,8 +2,8 @@
 -- version 4.2.11
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: 04 Agu 2018 pada 16.21
+-- Host: localhost
+-- Generation Time: 19 Agu 2018 pada 06.15
 -- Versi Server: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `satuan_barang`, `id_kategori`, `harga_beli`, `harga_jual`, `stock_barang`, `id_mitra`) VALUES
-('BG0001', 'Bimoli', 'PCS', 'KG001', 19000, 20000, 0, 'MT001'),
-('BG0002', 'Royco', 'PCS', 'KG001', 1000, 1100, 0, 'MT001');
+('BG0001', 'Bimoli', 'PCS', 'KG001', 20000, 21000, 18, 'MT001'),
+('BG0002', 'Royco', 'PCS', 'KG001', 1000, 1100, 31, 'MT001');
 
 -- --------------------------------------------------------
 
@@ -52,12 +52,20 @@ INSERT INTO `barang` (`id_barang`, `nama_barang`, `satuan_barang`, `id_kategori`
 --
 
 CREATE TABLE IF NOT EXISTS `barang_masuk` (
-  `kode_barangmasuk` varchar(10) NOT NULL,
-  `tgl_barangmasuk` datetime NOT NULL,
+  `kode_barangmasuk` varchar(15) NOT NULL,
+  `tgl_barangmasuk` date NOT NULL,
   `total_qty` int(3) NOT NULL,
-  `total_harga_beli` int(11) NOT NULL,
+  `grandtotal_harga_beli` int(11) NOT NULL,
+  `grandtotal_harga_jual` int(11) NOT NULL,
   `username` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `barang_masuk`
+--
+
+INSERT INTO `barang_masuk` (`kode_barangmasuk`, `tgl_barangmasuk`, `total_qty`, `grandtotal_harga_beli`, `grandtotal_harga_jual`, `username`) VALUES
+('BM-201808130001', '2018-08-13', 2, 40000, 40000, 'fitri');
 
 -- --------------------------------------------------------
 
@@ -66,12 +74,50 @@ CREATE TABLE IF NOT EXISTS `barang_masuk` (
 --
 
 CREATE TABLE IF NOT EXISTS `barang_masuk_details` (
-  `kode_barangmasuk` varchar(10) NOT NULL,
-  `id_barang` varchar(5) NOT NULL,
+`no` int(11) NOT NULL,
+  `kode_barangmasuk` varchar(15) NOT NULL,
+  `id_barang` varchar(10) NOT NULL,
   `qty` int(3) NOT NULL,
   `harga_beli` int(11) NOT NULL,
   `harga_jual` int(11) NOT NULL,
-  `id_mitra` varchar(5) NOT NULL
+  `total_harga_beli` int(11) NOT NULL,
+  `total_harga_jual` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `barang_masuk_details`
+--
+
+INSERT INTO `barang_masuk_details` (`no`, `kode_barangmasuk`, `id_barang`, `qty`, `harga_beli`, `harga_jual`, `total_harga_beli`, `total_harga_jual`) VALUES
+(3, 'BM-201808130001', 'BG0001', 2, 20000, 21000, 40000, 42000);
+
+--
+-- Trigger `barang_masuk_details`
+--
+DELIMITER //
+CREATE TRIGGER `STOKDANHARGA_UPDATE` BEFORE INSERT ON `barang_masuk_details`
+ FOR EACH ROW BEGIN
+ UPDATE barang SET stock_barang = stock_barang + NEW.qty, harga_beli = NEW.harga_beli, harga_jual = NEW.harga_jual
+ WHERE id_barang = NEW.id_barang;
+END
+//
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `barang_masuk_details_temp`
+--
+
+CREATE TABLE IF NOT EXISTS `barang_masuk_details_temp` (
+  `kode_barangmasuk` varchar(15) NOT NULL,
+  `id_barang` varchar(10) NOT NULL,
+  `nama_barang` varchar(30) NOT NULL,
+  `qty` int(3) NOT NULL,
+  `harga_beli` int(11) NOT NULL,
+  `harga_jual` int(11) NOT NULL,
+  `total_harga_beli` int(11) NOT NULL,
+  `total_harga_jual` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -120,14 +166,25 @@ INSERT INTO `mitra` (`id_mitra`, `nama_mitra`, `alamat_mitra`, `telp_mitra`) VAL
 --
 
 CREATE TABLE IF NOT EXISTS `penjualan` (
-  `kode_penjualan` varchar(10) NOT NULL,
+  `kode_penjualan` varchar(15) NOT NULL,
   `tgl_penjualan` date NOT NULL,
   `total_qty` int(11) NOT NULL,
-  `total_harga` int(11) NOT NULL,
+  `grandtotal` int(11) NOT NULL,
   `bayar` int(11) NOT NULL,
   `kembalian` int(11) NOT NULL,
   `username` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `penjualan`
+--
+
+INSERT INTO `penjualan` (`kode_penjualan`, `tgl_penjualan`, `total_qty`, `grandtotal`, `bayar`, `kembalian`, `username`) VALUES
+('JL-201808100001', '2018-08-10', 3, 6000, 6200, 100, 'fitri'),
+('JL-201808100002', '2018-08-10', 1, 2000, 2200, 100, 'fitri'),
+('JL-201808110001', '2018-08-11', 5, 100000, 100000, 0, 'fitri'),
+('JL-201808110002', '2018-08-11', 2, 40000, 40000, 0, 'fitri'),
+('JL-201808110003', '2018-08-11', 2, 40000, 41000, 1000, 'fitri');
 
 -- --------------------------------------------------------
 
@@ -136,10 +193,51 @@ CREATE TABLE IF NOT EXISTS `penjualan` (
 --
 
 CREATE TABLE IF NOT EXISTS `penjualan_details` (
-  `kode_penjualan` varchar(10) NOT NULL,
+`no` int(11) NOT NULL,
+  `kode_penjualan` varchar(15) NOT NULL,
   `id_barang` varchar(10) NOT NULL,
   `qty` int(11) NOT NULL,
-  `harga_jual` int(11) NOT NULL
+  `harga_jual` int(11) NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `penjualan_details`
+--
+
+INSERT INTO `penjualan_details` (`no`, `kode_penjualan`, `id_barang`, `qty`, `harga_jual`, `total`) VALUES
+(1, 'JL-201808100001', 'BG0001', 2, 2000, 4000),
+(2, 'JL-201808100001', 'BG0002', 1, 2000, 2000),
+(5, 'JL-201808100002', 'BG0002', 1, 2000, 2000),
+(6, 'JL-201808110001', 'BG0001', 5, 20000, 100000),
+(7, 'JL-201808110002', 'BG0001', 2, 20000, 40000),
+(10, 'JL-201808110003', 'BG0001', 2, 20000, 40000);
+
+--
+-- Trigger `penjualan_details`
+--
+DELIMITER //
+CREATE TRIGGER `UPDATE STOK` BEFORE INSERT ON `penjualan_details`
+ FOR EACH ROW BEGIN
+ UPDATE barang SET stock_barang = stock_barang - NEW.qty
+ WHERE id_barang = NEW.id_barang;
+END
+//
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `penjualan_details_temp`
+--
+
+CREATE TABLE IF NOT EXISTS `penjualan_details_temp` (
+  `kode_penjualan` varchar(15) NOT NULL,
+  `id_barang` varchar(10) NOT NULL,
+  `nama_barang` varchar(30) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `harga_jual` int(11) NOT NULL,
+  `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -149,12 +247,20 @@ CREATE TABLE IF NOT EXISTS `penjualan_details` (
 --
 
 CREATE TABLE IF NOT EXISTS `retur_penjualan` (
-  `kode_returpenjualan` varchar(10) NOT NULL,
+  `kode_returpenjualan` varchar(15) NOT NULL,
   `tgl_returpenjualan` date NOT NULL,
-  `kode_penjualan` varchar(10) NOT NULL,
-  `jumlah_barangretur` int(11) NOT NULL,
+  `kode_penjualan` varchar(15) NOT NULL,
+  `totalqty_barangretur` int(11) NOT NULL,
+  `grandtotal_barangretur` int(11) NOT NULL,
   `username` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `retur_penjualan`
+--
+
+INSERT INTO `retur_penjualan` (`kode_returpenjualan`, `tgl_returpenjualan`, `kode_penjualan`, `totalqty_barangretur`, `grandtotal_barangretur`, `username`) VALUES
+('RJ-201808140001', '2018-08-14', 'JL-201808100001', 2, 4000, 'fitri');
 
 -- --------------------------------------------------------
 
@@ -163,9 +269,35 @@ CREATE TABLE IF NOT EXISTS `retur_penjualan` (
 --
 
 CREATE TABLE IF NOT EXISTS `retur_penjualan_details` (
-  `kode_returpenjualan` varchar(10) NOT NULL,
+`no` int(11) NOT NULL,
+  `kode_returpenjualan` varchar(15) NOT NULL,
   `id_barang` varchar(10) NOT NULL,
-  `qty_retur` int(11) NOT NULL
+  `qty_retur` int(11) NOT NULL,
+  `harga_retur` int(11) NOT NULL,
+  `total_retur` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `retur_penjualan_details`
+--
+
+INSERT INTO `retur_penjualan_details` (`no`, `kode_returpenjualan`, `id_barang`, `qty_retur`, `harga_retur`, `total_retur`) VALUES
+(4, 'RJ-201808140001', 'BG0001', 2, 2000, 4000);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `retur_penjualan_details_temp`
+--
+
+CREATE TABLE IF NOT EXISTS `retur_penjualan_details_temp` (
+  `kode_returpenjualan` varchar(15) NOT NULL,
+  `kode_penjualan` varchar(15) NOT NULL,
+  `id_barang` varchar(10) NOT NULL,
+  `nama_barang` varchar(30) NOT NULL,
+  `qty_retur` int(11) NOT NULL,
+  `harga_retur` int(11) NOT NULL,
+  `total_retur` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -211,7 +343,13 @@ ALTER TABLE `barang_masuk`
 -- Indexes for table `barang_masuk_details`
 --
 ALTER TABLE `barang_masuk_details`
- ADD KEY `kode_barangmasuk` (`kode_barangmasuk`), ADD KEY `id_barang` (`id_barang`), ADD KEY `id_mitra` (`id_mitra`);
+ ADD PRIMARY KEY (`no`), ADD KEY `kode_barangmasuk` (`kode_barangmasuk`), ADD KEY `id_barang` (`id_barang`);
+
+--
+-- Indexes for table `barang_masuk_details_temp`
+--
+ALTER TABLE `barang_masuk_details_temp`
+ ADD PRIMARY KEY (`id_barang`);
 
 --
 -- Indexes for table `kategori`
@@ -235,7 +373,13 @@ ALTER TABLE `penjualan`
 -- Indexes for table `penjualan_details`
 --
 ALTER TABLE `penjualan_details`
- ADD KEY `kode_penjualan` (`kode_penjualan`), ADD KEY `id_barang` (`id_barang`);
+ ADD PRIMARY KEY (`no`), ADD KEY `kode_penjualan` (`kode_penjualan`), ADD KEY `id_barang` (`id_barang`);
+
+--
+-- Indexes for table `penjualan_details_temp`
+--
+ALTER TABLE `penjualan_details_temp`
+ ADD PRIMARY KEY (`id_barang`);
 
 --
 -- Indexes for table `retur_penjualan`
@@ -247,7 +391,13 @@ ALTER TABLE `retur_penjualan`
 -- Indexes for table `retur_penjualan_details`
 --
 ALTER TABLE `retur_penjualan_details`
- ADD KEY `id_barang` (`id_barang`), ADD KEY `kode_returpenjualan` (`kode_returpenjualan`);
+ ADD PRIMARY KEY (`no`), ADD KEY `id_barang` (`id_barang`), ADD KEY `kode_returpenjualan` (`kode_returpenjualan`);
+
+--
+-- Indexes for table `retur_penjualan_details_temp`
+--
+ALTER TABLE `retur_penjualan_details_temp`
+ ADD PRIMARY KEY (`id_barang`);
 
 --
 -- Indexes for table `users`
@@ -255,6 +405,25 @@ ALTER TABLE `retur_penjualan_details`
 ALTER TABLE `users`
  ADD PRIMARY KEY (`username`);
 
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `barang_masuk_details`
+--
+ALTER TABLE `barang_masuk_details`
+MODIFY `no` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `penjualan_details`
+--
+ALTER TABLE `penjualan_details`
+MODIFY `no` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `retur_penjualan_details`
+--
+ALTER TABLE `retur_penjualan_details`
+MODIFY `no` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
@@ -277,8 +446,7 @@ ADD CONSTRAINT `barang_masuk_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users`
 --
 ALTER TABLE `barang_masuk_details`
 ADD CONSTRAINT `barang_masuk_details_ibfk_1` FOREIGN KEY (`kode_barangmasuk`) REFERENCES `barang_masuk` (`kode_barangmasuk`) ON UPDATE CASCADE,
-ADD CONSTRAINT `barang_masuk_details_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE,
-ADD CONSTRAINT `barang_masuk_details_ibfk_3` FOREIGN KEY (`id_mitra`) REFERENCES `mitra` (`id_mitra`) ON UPDATE CASCADE;
+ADD CONSTRAINT `barang_masuk_details_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `penjualan`
@@ -290,8 +458,8 @@ ADD CONSTRAINT `penjualan_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`
 -- Ketidakleluasaan untuk tabel `penjualan_details`
 --
 ALTER TABLE `penjualan_details`
-ADD CONSTRAINT `penjualan_details_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
-ADD CONSTRAINT `penjualan_details_ibfk_2` FOREIGN KEY (`kode_penjualan`) REFERENCES `penjualan` (`kode_penjualan`);
+ADD CONSTRAINT `penjualan_details_ibfk_1` FOREIGN KEY (`kode_penjualan`) REFERENCES `penjualan` (`kode_penjualan`) ON UPDATE CASCADE,
+ADD CONSTRAINT `penjualan_details_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `retur_penjualan`
