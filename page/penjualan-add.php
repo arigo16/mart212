@@ -13,11 +13,14 @@
         $id_barang = $_POST['id_barang'];
         $nama_barang = $_POST['nama_barang'];
         $harga_jual = $_POST['harga_jual'];
+        $stock_barang = $_POST['stock_barang'];
         $qty = $_POST['qty'];
         $total_harga = $harga_jual * $qty;
 
         if ($nama_barang == "") {
             echo "<script>alert('Barang tidak terdaftar')</script>";
+        } else if ($qty > $stock_barang) {
+            echo "<script>alert('Stock tidak tersedia dengan jumlah qty')</script>";
         } else {
             $con->query("INSERT INTO penjualan_details_temp values ('$NewID', '$id_barang', '$nama_barang', '$qty', '$harga_jual', '$total_harga')");
 
@@ -89,6 +92,10 @@
                                 <div class="col-2 form-group">
                                     <input type="text" class="form-control" name="harga_jual" id="harga_jual" readonly required>
                                     <!-- <label>Harga</label> -->
+                                </div>
+                                <div class="col-2 form-group" hidden>
+                                    <input type="text" class="form-control" name="stock_barang" id="stock_barang" readonly required>
+                                    <!-- <label>Stock Barang</label> -->
                                 </div>
                                 <div class="col-1 form-group">
                                     <input type="text" class="form-control" name="qty" onkeypress="return OnlyNumber(event)" required>

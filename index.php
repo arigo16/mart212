@@ -139,6 +139,7 @@
                 obj = JSON.parse(json);
                 $('#nama_barang').val(obj.nama_barang);
                 $('#harga_jual').val(obj.harga_jual);
+                $('#stock_barang').val(obj.stock_barang);
             });
         }
 

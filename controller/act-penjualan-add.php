@@ -25,7 +25,11 @@ if ($bayar < $grandtotal) {
 	$con->query("DELETE FROM penjualan_details_temp");
 
 	if ($con->affected_rows > 0){
-		echo "<script>alert('Data penjualan telah berhasil disimpan');window.location='../index.php?page=penjualan'</script>";
+		echo "<script>
+			alert('Data penjualan telah berhasil disimpan');
+			window.location='../index.php?page=penjualan';
+			window.open('../report/struk-penjualan.php?kode=$kode_penjualan', '_blank');
+		</script>";
 	}else{
 		echo "<script>alert('Data penjualan telah gagal disimpan');window.location='../index.php?page=penjualan'</script>";
 	}

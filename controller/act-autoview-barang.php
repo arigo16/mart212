@@ -7,6 +7,7 @@
     $barang = mysqli_fetch_array($query);
     $data = array(
                 'nama_barang'  =>  $barang['nama_barang'],
-                'harga_jual'   =>  $barang['harga_jual'],);
+                'harga_jual'   =>  $barang['harga_jual'],
+                'stock_barang'  =>  $barang['stock_barang'],);
     echo json_encode($data);
 ?>
