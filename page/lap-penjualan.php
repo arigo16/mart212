@@ -24,7 +24,27 @@
             <div class="tab-content">
 
                 <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
+                    <div class="card p-6">
+                        <form action="report/struk-penjualan.php" method="GET" target="_blank">
+                            <div class="card">
+                                <div class="card-header">
+                                    Cetak Struk Penjualan
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-row">
+                                    <div class="col-12 form-group">
+                                        <input type="text" class="form-control" name="kode" required/>
+                                        <label>Kode Penjualan</label>
+                                    </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary">LIHAT</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
+                <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
                     <div class="card p-6">
                         <form action="report/laporan-penjualan-cetak.php" method="POST" target="_blank">
                             <div class="card">

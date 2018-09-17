@@ -38,6 +38,10 @@
                   <th scope="row">Tanggal Penjualan</th>
                   <td>'.$rr['tgl_penjualan'].'</td>
                 </tr>
+                <tr>
+                  <th scope="row">Petugas</th>
+                  <td>'.$rr['fullname'].'</td>
+                </tr>
               </tbody>
             </table>
     
