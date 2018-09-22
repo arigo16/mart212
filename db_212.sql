@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 19 Agu 2018 pada 06.15
+-- Generation Time: 22 Sep 2018 pada 11.14
 -- Versi Server: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `satuan_barang`, `id_kategori`, `harga_beli`, `harga_jual`, `stock_barang`, `id_mitra`) VALUES
-('BG0001', 'Bimoli', 'PCS', 'KG001', 20000, 21000, 18, 'MT001'),
-('BG0002', 'Royco', 'PCS', 'KG001', 1000, 1100, 31, 'MT001');
+('BG0001', 'Bimoli', 'PCS', 'KG001', 20000, 21000, 2, 'MT001'),
+('BG0002', 'Royco', 'PCS', 'KG001', 1100, 1200, 25, 'MT001');
 
 -- --------------------------------------------------------
 
@@ -65,7 +65,8 @@ CREATE TABLE IF NOT EXISTS `barang_masuk` (
 --
 
 INSERT INTO `barang_masuk` (`kode_barangmasuk`, `tgl_barangmasuk`, `total_qty`, `grandtotal_harga_beli`, `grandtotal_harga_jual`, `username`) VALUES
-('BM-201808130001', '2018-08-13', 2, 40000, 40000, 'fitri');
+('BM-201808130001', '2018-08-13', 2, 40000, 42000, 'fitri'),
+('BM-201809170001', '2018-09-17', 5, 5500, 6000, 'fitri');
 
 -- --------------------------------------------------------
 
@@ -82,14 +83,15 @@ CREATE TABLE IF NOT EXISTS `barang_masuk_details` (
   `harga_jual` int(11) NOT NULL,
   `total_harga_beli` int(11) NOT NULL,
   `total_harga_jual` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `barang_masuk_details`
 --
 
 INSERT INTO `barang_masuk_details` (`no`, `kode_barangmasuk`, `id_barang`, `qty`, `harga_beli`, `harga_jual`, `total_harga_beli`, `total_harga_jual`) VALUES
-(3, 'BM-201808130001', 'BG0001', 2, 20000, 21000, 40000, 42000);
+(3, 'BM-201808130001', 'BG0001', 2, 20000, 21000, 40000, 42000),
+(4, 'BM-201809170001', 'BG0002', 5, 1100, 1200, 5500, 6000);
 
 --
 -- Trigger `barang_masuk_details`
@@ -184,7 +186,25 @@ INSERT INTO `penjualan` (`kode_penjualan`, `tgl_penjualan`, `total_qty`, `grandt
 ('JL-201808100002', '2018-08-10', 1, 2000, 2200, 100, 'fitri'),
 ('JL-201808110001', '2018-08-11', 5, 100000, 100000, 0, 'fitri'),
 ('JL-201808110002', '2018-08-11', 2, 40000, 40000, 0, 'fitri'),
-('JL-201808110003', '2018-08-11', 2, 40000, 41000, 1000, 'fitri');
+('JL-201808110003', '2018-08-11', 2, 40000, 41000, 1000, 'fitri'),
+('JL-201809040001', '2018-09-04', 2, 42000, 42000, 0, 'fitri'),
+('JL-201809040002', '2018-09-04', 2, 2200, 2300, 100, 'fitri'),
+('JL-201809040003', '2018-09-04', 2, 42000, 42000, 0, 'fitri'),
+('JL-201809040004', '2018-09-04', 2, 2200, 2200, 0, 'fitri'),
+('JL-201809040005', '2018-09-04', 2, 2200, 2200, 0, 'fitri'),
+('JL-201809040006', '2018-09-04', 1, 21000, 21000, 0, 'fitri'),
+('JL-201809040007', '2018-09-04', 1, 21000, 21000, 0, 'fitri'),
+('JL-201809040008', '2018-09-04', 1, 21000, 21000, 0, 'fitri'),
+('JL-201809040009', '2018-09-04', 1, 1100, 1100, 0, 'fitri'),
+('JL-201809040010', '2018-09-04', 1, 21000, 21000, 0, 'fitri'),
+('JL-201809040011', '2018-09-04', 1, 21000, 21000, 0, 'fitri'),
+('JL-201809040012', '2018-09-04', 1, 1100, 1100, 0, 'fitri'),
+('JL-201809040013', '2018-09-04', 2, 22100, 22100, 0, 'fitri'),
+('JL-201809040014', '2018-09-04', 1, 21000, 30000, 9000, 'fitri'),
+('JL-201809040015', '2018-09-04', 3, 43100, 45000, 1900, 'fitri'),
+('JL-201809100001', '2018-09-10', 1, 21000, 21000, 0, 'fitri'),
+('JL-201809170001', '2018-09-17', 2, 42000, 42000, 0, 'fitri'),
+('JL-201809170002', '2018-09-17', 1, 1100, 1100, 0, 'fitri');
 
 -- --------------------------------------------------------
 
@@ -199,7 +219,7 @@ CREATE TABLE IF NOT EXISTS `penjualan_details` (
   `qty` int(11) NOT NULL,
   `harga_jual` int(11) NOT NULL,
   `total` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `penjualan_details`
@@ -211,7 +231,27 @@ INSERT INTO `penjualan_details` (`no`, `kode_penjualan`, `id_barang`, `qty`, `ha
 (5, 'JL-201808100002', 'BG0002', 1, 2000, 2000),
 (6, 'JL-201808110001', 'BG0001', 5, 20000, 100000),
 (7, 'JL-201808110002', 'BG0001', 2, 20000, 40000),
-(10, 'JL-201808110003', 'BG0001', 2, 20000, 40000);
+(10, 'JL-201808110003', 'BG0001', 2, 20000, 40000),
+(11, 'JL-201809040001', 'BG0001', 2, 21000, 42000),
+(12, 'JL-201809040002', 'BG0002', 2, 1100, 2200),
+(13, 'JL-201809040003', 'BG0001', 2, 21000, 42000),
+(14, 'JL-201809040004', 'BG0002', 2, 1100, 2200),
+(15, 'JL-201809040005', 'BG0002', 2, 1100, 2200),
+(16, 'JL-201809040006', 'BG0001', 1, 21000, 21000),
+(17, 'JL-201809040007', 'BG0001', 1, 21000, 21000),
+(18, 'JL-201809040008', 'BG0001', 1, 21000, 21000),
+(19, 'JL-201809040009', 'BG0002', 1, 1100, 1100),
+(20, 'JL-201809040010', 'BG0001', 1, 21000, 21000),
+(21, 'JL-201809040011', 'BG0001', 1, 21000, 21000),
+(22, 'JL-201809040012', 'BG0002', 1, 1100, 1100),
+(23, 'JL-201809040013', 'BG0001', 1, 21000, 21000),
+(24, 'JL-201809040013', 'BG0002', 1, 1100, 1100),
+(26, 'JL-201809040014', 'BG0001', 1, 21000, 21000),
+(27, 'JL-201809040015', 'BG0001', 2, 21000, 42000),
+(28, 'JL-201809040015', 'BG0002', 1, 1100, 1100),
+(29, 'JL-201809100001', 'BG0001', 1, 21000, 21000),
+(30, 'JL-201809170001', 'BG0001', 2, 21000, 42000),
+(31, 'JL-201809170002', 'BG0002', 1, 1100, 1100);
 
 --
 -- Trigger `penjualan_details`
@@ -321,7 +361,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`username`, `password`, `fullname`, `authorization`, `photo`) VALUES
 ('arigo', '1bc0249a6412ef49b07fe6f62e6dc8de', 'Arigo', 'Kasir', 'assets/images/avatars/arigo.jpg'),
 ('elisa', '1bc0249a6412ef49b07fe6f62e6dc8de', 'Elisa Fitriani', 'Kepala Toko', 'assets/images/avatars/elisa.jpg'),
-('fitri', '1bc0249a6412ef49b07fe6f62e6dc8de', 'Fitri Nurul Fathonah', 'Administrator', 'assets/images/avatars/fitri.jpg');
+('fitri', '1bc0249a6412ef49b07fe6f62e6dc8de', 'Fitri Nurul Fathonah', 'Administrator', 'assets/images/avatars/Fitri.jpg');
 
 --
 -- Indexes for dumped tables
@@ -413,12 +453,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `barang_masuk_details`
 --
 ALTER TABLE `barang_masuk_details`
-MODIFY `no` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `no` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `penjualan_details`
 --
 ALTER TABLE `penjualan_details`
-MODIFY `no` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `no` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `retur_penjualan_details`
 --
