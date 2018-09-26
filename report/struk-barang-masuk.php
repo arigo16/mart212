@@ -26,7 +26,7 @@
         <body>
     
         <img src="../assets/images/backgrounds/mart212.jpg" width="15%"></img>
-        <center><strong><span style="font-size:160%;">Surat Keterangan Barang Masuk</span></strong></center>
+        <center><strong><span style="font-size:160%;">Surat Bukti Barang Masuk</span></strong></center>
         <br>
           <table width="50%" border="1">
             <tbody>
