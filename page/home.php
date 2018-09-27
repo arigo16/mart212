@@ -10,7 +10,7 @@
                     <div class="row no-gutters align-items-start justify-content-between flex-nowrap">
 
                         <div>
-                            <span class="h2">Selamat Datang, <?php echo ucfirst($_SESSION['fullname']);?></span>
+                            <span class="h2">Selamat Datang, <?php echo ucfirst($_SESSION['fullname']);?> (<?php echo ucfirst($_SESSION['authorization']);?>)</span>
                         </div>
 
                         <button type="button" class="sidebar-toggle-button btn btn-icon d-block d-xl-none" data-fuse-bar-toggle="dashboard-project-sidebar" aria-label="Toggle sidebar">

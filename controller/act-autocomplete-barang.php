@@ -5,7 +5,8 @@
 
 	$query = $con->query("SELECT * FROM barang WHERE id_barang LIKE '%".$searchTerm."%'");
 	while ($row = $query->fetch_assoc()) {
-	    $data[] = $row['id_barang'];
+		$view = $row['id_barang'] ." - ". $row['nama_barang'];
+	    $data[] = $view;
 	}
 	echo json_encode($data);
 ?>

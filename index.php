@@ -124,7 +124,7 @@
         // Autocomplete
         $(function() {
             $( "#id_barang" ).autocomplete({
-            source: 'controller/act-autocomplete-barang.php'
+                source: 'controller/act-autocomplete-barang.php'
             });
         });
 

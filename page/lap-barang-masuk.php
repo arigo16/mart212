@@ -46,6 +46,47 @@
 
                 <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
                     <div class="card p-6">
+                        <form action="report/laporan-barang-masuk-mitra-cetak.php" method="POST" target="_blank">
+                            <div class="card">
+                                <div class="card-header">
+                                    Laporan Penjualan Berdasarkan Mitra
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-row">
+                                    <div class="col-12 form-group">
+                                        <label for="mitra">Mitra</label>
+                                            <select class="form-control" name="mitra" id="mitra" required>
+                                                <option></option>
+                                                <?php
+                                                    $r = $con->query("SELECT * FROM mitra");
+                                                    foreach ($r as $rr) {
+                                                ?>
+                                                    <option value="<?php echo $rr['id_mitra'];?>"><?php echo $rr['nama_mitra'];?></option>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-6 form-group">
+                                            <input class="form-control" type="date" value="<?php echo $today30 ?>" name="tgl_mulai"/>
+                                            <label>Tanggal Mulai</label>
+                                        </div>
+                                        <div class="col-6 form-group">
+                                            <input class="form-control" type="date"  value="<?php echo $today ?>" name="tgl_akhir"/>
+                                            <label>Tanggal Akhir</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary">LIHAT</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
+                    <div class="card p-6">
                         <form action="report/laporan-barang-masuk-cetak.php" method="POST" target="_blank">
                             <div class="card">
                                 <div class="card-header">

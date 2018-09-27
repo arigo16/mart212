@@ -88,7 +88,7 @@
 
                             <div class="form-row">
                                 <div class="col-1 form-group">
-                                    <input type="text" class="form-control" name="id_barang" id="id_barang" onkeyup="isi_otomatis_barang()" onchange="isi_otomatis_barang()" required>
+                                    <input type="text" class="form-control" maxlength="6" name="id_barang" id="id_barang" onkeyup="isi_otomatis_barang()" onchange="isi_otomatis_barang()" required>
                                     <label>ID Barang</label>
                                 </div>
                                 <div class="col form-group">
