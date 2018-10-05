@@ -28,7 +28,7 @@ if ($bayar < $grandtotal) {
 		echo "<script>
 			alert('Data penjualan telah berhasil disimpan');
 			window.location='../index.php?page=penjualan';
-			window.open('../report/struk-penjualan.php?kode=$kode_penjualan', '_blank');
+			window.open('../report/struk-penjualan.php?kode=$kode_penjualan', '', 'width=1000, height=600');
 		</script>";
 	}else{
 		echo "<script>alert('Data penjualan telah gagal disimpan');window.location='../index.php?page=penjualan'</script>";
