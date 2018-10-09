@@ -128,6 +128,24 @@
             });
         });
 
+        $(function() {
+            $( "#kode_bm" ).autocomplete({
+                source: 'controller/act-autocomplete-barang-masuk.php'
+            });
+        });
+
+        $(function() {
+            $( "#kode_p" ).autocomplete({
+                source: 'controller/act-autocomplete-penjualan.php'
+            });
+        });
+
+        $(function() {
+            $( "#kode_rp" ).autocomplete({
+                source: 'controller/act-autocomplete-retur-penjualan.php'
+            });
+        });
+
         // Autoview
         function isi_otomatis_barang(){
             var id_barang = $("#id_barang").val();

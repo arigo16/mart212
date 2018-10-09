@@ -21,9 +21,9 @@ if ($grandtotal_harga_beli == "") {
 
 	if ($con->affected_rows > 0){
 		echo "<script>
+			window.open('../report/struk-barang-masuk.php?kode_bm=$kode_barangmasuk', '_blank');
 			alert('Data barang masuk telah berhasil disimpan');
 			window.location='../index.php?page=barang-masuk';
-			window.open('../report/struk-barang-masuk.php?kode=$kode_barangmasuk', '', 'width=1000, height=600');
 		</script>";
 	}else{
 		echo "<script>alert('Data barang masuk telah gagal disimpan');window.location='../index.php?page=barang-masuk'</script>";

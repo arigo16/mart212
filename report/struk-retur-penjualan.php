@@ -4,7 +4,7 @@
 
     use Dompdf\Dompdf;
 
-    $kode_returpenjualan = $_GET['kode'];
+    $kode_returpenjualan = $_GET['kode_rp'];
     // $kode_returpenjualan = 'RJ-201808140001';
     $r = $con->query("SELECT retur_penjualan.kode_returpenjualan, retur_penjualan.kode_penjualan, retur_penjualan.tgl_returpenjualan, users.fullname, retur_penjualan.totalqty_barangretur, retur_penjualan.grandtotal_barangretur FROM users INNER JOIN (retur_penjualan INNER JOIN (barang INNER JOIN retur_penjualan_details ON barang.id_barang = retur_penjualan_details.id_barang) ON retur_penjualan.kode_returpenjualan = retur_penjualan_details.kode_returpenjualan) ON users.username = retur_penjualan.username WHERE retur_penjualan.kode_returpenjualan = '$kode_returpenjualan'");
     foreach ($r as $rr) { 

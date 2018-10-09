@@ -4,7 +4,7 @@
 
     use Dompdf\Dompdf;
 
-    $kode_barangmasuk = $_GET['kode'];
+    $kode_barangmasuk = $_GET['kode_bm'];
     $r = $con->query("SELECT barang_masuk.kode_barangmasuk, barang_masuk.tgl_barangmasuk, barang_masuk.total_qty, barang_masuk.grandtotal_harga_beli, barang_masuk.grandtotal_harga_jual, users.fullname FROM users INNER JOIN (barang INNER JOIN (barang_masuk INNER JOIN barang_masuk_details ON barang_masuk.kode_barangmasuk = barang_masuk_details.kode_barangmasuk) ON barang.id_barang = barang_masuk_details.id_barang) ON users.username = barang_masuk.username WHERE barang_masuk.kode_barangmasuk = '$kode_barangmasuk'");
     foreach ($r as $rr) { 
 

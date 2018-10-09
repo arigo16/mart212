@@ -22,9 +22,9 @@ if ($grandtotal == "") {
 
 	if ($con->affected_rows > 0){
 		echo "<script>
+			window.open('../report/struk-retur-penjualan.php?kode_rp=$kode_returpenjualan', '_blank');
 			alert('Data retur penjualan telah berhasil disimpan');
 			window.location='../index.php?page=retur-penjualan';
-			window.open('../report/struk-retur-penjualan.php?kode=$kode_returpenjualan', '', 'width=1000, height=600');
 		</script>";
 		echo "<script>alert('Data retur penjualan telah berhasil disimpan');window.location='../index.php?page=retur-penjualan'</script>";
 	}else{

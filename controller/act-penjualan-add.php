@@ -26,9 +26,9 @@ if ($bayar < $grandtotal) {
 
 	if ($con->affected_rows > 0){
 		echo "<script>
+			window.open('../report/struk-penjualan.php?kode_p=$kode_penjualan', '_blank');
 			alert('Data penjualan telah berhasil disimpan');
 			window.location='../index.php?page=penjualan';
-			window.open('../report/struk-penjualan.php?kode=$kode_penjualan', '', 'width=1000, height=600');
 		</script>";
 	}else{
 		echo "<script>alert('Data penjualan telah gagal disimpan');window.location='../index.php?page=penjualan'</script>";

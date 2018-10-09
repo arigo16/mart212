@@ -4,8 +4,12 @@
 
     use Dompdf\Dompdf;
 
-    $kode_penjualan = $_GET['kode_p'];
-    $r = $con->query("SELECT penjualan.kode_penjualan, penjualan.tgl_penjualan, penjualan.total_qty, penjualan.grandtotal, penjualan.bayar, penjualan.kembalian, users.fullname FROM users INNER JOIN penjualan ON users.username = penjualan.username WHERE kode_penjualan = '$kode_penjualan'");
+    $tgl_mulai = $_POST['tgl_mulai'];
+    $tgl_akhir = $_POST['tgl_akhir'];
+    $id_baranguncut = $_POST['id_barang'];
+    $id_barang = substr($id_baranguncut, 0, 6);
+    $nama_barang = $_POST['nama_barang'];
+    $r = $con->query("SELECT SUM(retur_penjualan_details.qty_retur) AS total_qty, SUM(retur_penjualan_details.total_retur) AS grandtotal FROM retur_penjualan INNER JOIN retur_penjualan_details ON retur_penjualan.kode_returpenjualan = retur_penjualan_details.kode_returpenjualan WHERE retur_penjualan_details.id_barang = '$id_barang' AND date(retur_penjualan.tgl_returpenjualan) between DATE('$tgl_mulai') AND DATE('$tgl_akhir')");
     foreach ($r as $rr) { 
 
     $html =
@@ -26,21 +30,17 @@
         <body>
     
         <img src="../assets/images/backgrounds/mart212.jpg" width="15%"></img>
-        <center><strong><span style="font-size:160%;">Struk Penjualan</span></strong></center>
+        <center><strong><span style="font-size:160%;">Laporan Retur Penjualan Berdasarkan Barang</span></strong></center>
         <br>
             <table width="50%" border="1">
               <tbody>
                 <tr>
-                  <th width="25%" scope="row">Kode Penjualan</th>
-                  <td width="25%">'.$rr['kode_penjualan'].'</td>
+                  <th width="25%" scope="row">Barang</th>
+                  <td width="25%">'.$nama_barang.'</td>
                 </tr>
                 <tr>
                   <th scope="row">Tanggal Penjualan</th>
-                  <td>'.$rr['tgl_penjualan'].'</td>
-                </tr>
-                <tr>
-                  <th scope="row">Petugas</th>
-                  <td>'.$rr['fullname'].'</td>
+                  <td>'.$tgl_mulai.' - '.$tgl_akhir.'</td>
                 </tr>
               </tbody>
             </table>
@@ -55,14 +55,14 @@
                         <th width="15%" style="text-align: center">Qty</th>
                         <th width="20%" style="text-align: right">Total</th>
                     </tr>';
-                    $s = $con->query("SELECT penjualan_details.id_barang, barang.nama_barang, penjualan_details.qty, penjualan_details.harga_jual, penjualan_details.total FROM barang INNER JOIN ((users INNER JOIN penjualan ON users.username = penjualan.username) INNER JOIN penjualan_details ON penjualan.kode_penjualan = penjualan_details.kode_penjualan) ON barang.id_barang = penjualan_details.id_barang WHERE penjualan_details.kode_penjualan='$kode_penjualan'");
+                    $s = $con->query("SELECT retur_penjualan_details.id_barang, barang.nama_barang, retur_penjualan_details.harga_retur, retur_penjualan_details.qty_retur, retur_penjualan_details.total_retur FROM barang INNER JOIN (retur_penjualan INNER JOIN retur_penjualan_details ON retur_penjualan.kode_returpenjualan = retur_penjualan_details.kode_returpenjualan) ON barang.id_barang = retur_penjualan_details.id_barang WHERE barang.id_barang = '$id_barang' AND date(retur_penjualan.tgl_returpenjualan) between DATE('$tgl_mulai') AND DATE('$tgl_akhir') ORDER BY retur_penjualan.tgl_returpenjualan ASC");
                     while ($ss = $s->fetch_array()) {
                     $html .='<tr>
                         <td>'.$ss['id_barang'].'</td>
                         <td>'.$ss['nama_barang'].'</td>
-                        <td style="text-align: right">Rp. '.$ss['harga_jual'].'</td>
-                        <td style="text-align: center">'.$ss['qty'].'</td>
-                        <td style="text-align: right">Rp. '.$ss['total'].'</td>
+                        <td style="text-align: right">Rp. '.$ss['harga_retur'].'</td>
+                        <td style="text-align: center">'.$ss['qty_retur'].'</td>
+                        <td style="text-align: right">Rp. '.$ss['total_retur'].'</td>
                     </tr>';
                     }
                 $html .='
@@ -80,14 +80,6 @@
                   <th colspan="4">Grandtotal</th>
                   <td style="text-align: right">Rp. '.$rr['grandtotal'].'</td>
                 </tr>
-                <tr>
-                  <th colspan="4">Bayar</th>
-                  <td style="text-align: right">Rp. '.$rr['bayar'].'</td>
-                </tr>
-                <tr>
-                  <th colspan="4">Kembalian</th>
-                  <td style="text-align: right">Rp. '.$rr['kembalian'].'</td>
-                </tr>
               </tbody>
             </table>
         </body>
@@ -102,6 +94,6 @@
 
     $dompdf->render();
 
-    $dompdf->stream('StrukPenjualan-'.$kode_penjualan, array('Attachment'=>0));
+    $dompdf->stream('LapReturPenjualan-'.$nama_barang, array('Attachment'=>0));
     $output = $dompdf->output();
 ?>

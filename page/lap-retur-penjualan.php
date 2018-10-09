@@ -33,9 +33,44 @@
                                 <div class="card-body">
                                     <div class="form-row">
                                     <div class="col-12 form-group">
-                                        <input type="text" class="form-control" name="kode" required/>
+                                        <input type="text" class="form-control" name="kode_rp" id="kode_rp" maxlength="15" required/>
                                         <label>Kode Retur Penjualan</label>
                                     </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary">LIHAT</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
+                    <div class="card p-6">
+                        <form action="report/laporan-retur-penjualan-item-cetak.php" method="POST" target="_blank">
+                            <div class="card">
+                                <div class="card-header">
+                                    Laporan Retur Penjualan Berdasarkan Barang
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="col-2 form-group">
+                                            <input type="text" class="form-control" maxlength="6" name="id_barang" id="id_barang" onkeyup="isi_otomatis_barang()" onchange="isi_otomatis_barang()" required>
+                                        <label>ID Barang</label>
+                                        </div>
+                                        <div class="col-10 form-group">
+                                            <input type="text" class="form-control" name="nama_barang" id="nama_barang" readonly required>
+                                            <!-- <label>Nama Barang</label> -->
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-6 form-group">
+                                            <input class="form-control" type="date" value="<?php echo $today30 ?>" name="tgl_mulai"/>
+                                            <label>Tanggal Mulai</label>
+                                        </div>
+                                        <div class="col-6 form-group">
+                                            <input class="form-control" type="date"  value="<?php echo $today ?>" name="tgl_akhir"/>
+                                            <label>Tanggal Akhir</label>
+                                        </div>
                                     </div>
                                     <button type="submit" class="btn btn-secondary">LIHAT</button>
                                 </div>
@@ -62,6 +97,47 @@
                                                     foreach ($r as $rr) {
                                                 ?>
                                                     <option value="<?php echo $rr['id_mitra'];?>"><?php echo $rr['nama_mitra'];?></option>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-6 form-group">
+                                            <input class="form-control" type="date" value="<?php echo $today30 ?>" name="tgl_mulai"/>
+                                            <label>Tanggal Mulai</label>
+                                        </div>
+                                        <div class="col-6 form-group">
+                                            <input class="form-control" type="date"  value="<?php echo $today ?>" name="tgl_akhir"/>
+                                            <label>Tanggal Akhir</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary">LIHAT</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade show active" id="basic-info-tab-pane" role="tabpanel" aria-labelledby="basic-info-tab">
+                    <div class="card p-6">
+                        <form action="report/laporan-retur-penjualan-kategori-cetak.php" method="POST" target="_blank">
+                            <div class="card">
+                                <div class="card-header">
+                                    Laporan Retur Penjualan Berdasarkan Kategori
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-row">
+                                    <div class="col-12 form-group">
+                                        <label for="kategori">Kategori</label>
+                                            <select class="form-control" name="kategori" id="kategori" required>
+                                                <option></option>
+                                                <?php
+                                                    $r = $con->query("SELECT * FROM kategori");
+                                                    foreach ($r as $rr) {
+                                                ?>
+                                                    <option value="<?php echo $rr['id_kategori'];?>"><?php echo $rr['nama_kategori'];?></option>
                                                 <?php
                                                     }
                                                 ?>
