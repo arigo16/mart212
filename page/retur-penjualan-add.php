@@ -12,7 +12,8 @@
     // Simpan daftar barang
     if (isset($_POST['btn_add'])){
         $kode_penjualan = $_POST['kode_penjualan'];
-        $id_barang = $_POST['id_barang'];
+        $id_baranguncut = $_POST['id_barang'];
+        $id_barang = substr($id_baranguncut, 0, 6);
         $nama_barang = $_POST['nama_barang'];
         $harga_jual = $_POST['harga_jual'];
         $qty_barang = $_POST['qty_barang'];
