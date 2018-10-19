@@ -72,7 +72,7 @@
                             </select>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <input type="text" class="form-control" name="harga_beli" onkeypress="return OnlyNumber(event)" value="<?php echo $rr['harga_beli'];?>" required/>
                                 <label>Harga Beli</label>
                             </div>
@@ -80,7 +80,7 @@
                             <div class="form-group">
                                 <input type="text" class="form-control" name="harga_jual" onkeypress="return OnlyNumber(event)" value="<?php echo $rr['harga_jual'];?>" required/>
                                 <label>Harga Jual</label>
-                            </div>
+                            </div> -->
 
                             <div class="form-group">
                             <label for="mitra">Mitra</label>

@@ -65,7 +65,7 @@
                             </select>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <input type="text" class="form-control" name="harga_beli" onkeypress="return OnlyNumber(event)" required/>
                                 <label>Harga Beli</label>
                             </div>
@@ -73,7 +73,7 @@
                             <div class="form-group">
                                 <input type="text" class="form-control" name="harga_jual" onkeypress="return OnlyNumber(event)" required/>
                                 <label>Harga Jual</label>
-                            </div>
+                            </div> -->
 
                             <div class="form-group">
                             <label for="mitra">Mitra</label>
